@@ -23,11 +23,16 @@ public class Main {
         List<String> listaNomes = new ArrayList<>();
 
         try(BufferedReader bf = new BufferedReader(new FileReader(path))) {
-            String line = bf.readLine();
+            String line;
 
-            while (line != null) {
-                line = bf.readLine();
-                listaNomes.add(line);
+            while ((line = bf.readLine()) != null) {
+                if (line != null && !line.trim().isEmpty()) {  // Verifica que a linha não é nula ou vazia
+                    listaNomes.add(line);
+                }
+            }
+
+            for (String nome : listaNomes) {
+                System.out.println(nome);
             }
 
             List<List<String>> grupos = dividirEmGrupos(listaNomes, integrantes);
@@ -60,14 +65,10 @@ public class Main {
             grupos.add(grupo);
         }
 
-        if (restante > 0){
-            List<String> novoGrupo = new ArrayList<>();
-            for (int j = 0; j < integrantes; j++) {
-                if (indice < listaNomes.size()){
-                    novoGrupo.add(listaNomes.get(indice++));
-                }
+        if (restante > 0) {
+            for (int i = 0; i < restante; i++) {
+                grupos.get(i).add(listaNomes.get(indice++));
             }
-            grupos.add(novoGrupo);
         }
 
         return grupos;
